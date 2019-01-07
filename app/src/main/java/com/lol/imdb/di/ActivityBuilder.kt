@@ -1,6 +1,7 @@
 package com.lol.imdb.di
 
 import com.lol.imdb.di.modules.MainActivityModule
+import com.lol.imdb.di.modules.MoviesModule
 import com.lol.imdb.ui.base.BaseActivity
 import com.lol.imdb.ui.main.MainActivity
 import dagger.Module
@@ -17,7 +18,7 @@ abstract class ActivityBuilder {
     abstract fun bindBaseActivity(): BaseActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [(MainActivityModule::class)])
+    @ContributesAndroidInjector(modules = [(MainActivityModule::class), (MoviesModule::class)])
     abstract fun bindMainActivity(): MainActivity
 
 

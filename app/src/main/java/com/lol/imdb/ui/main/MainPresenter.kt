@@ -1,7 +1,13 @@
 package com.lol.imdb.ui.main
 
+import com.lol.imdb.api.providers.MoviesProvider
 import com.lol.imdb.ui.base.BasePresenter
-import retrofit2.Retrofit
+import io.reactivex.Observer
+import io.reactivex.Single
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.plugins.RxJavaPlugins.onError
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -12,11 +18,24 @@ class MainPresenter<IView : IMainView>
 @Inject constructor(/*retrofit: Retrofit*/) : BasePresenter<IView>(/*retrofit*/), IMainPresenter<IView> {
 
     @Inject
-    lateinit var retrofit: Retrofit
+    lateinit var moviesProvider: MoviesProvider
 
     override fun onButtonClick(message: String) {
-        iView?.showToast(message)
-        retrofit.baseUrl()
+//        iView?.showToast(message)
+        val disposable = moviesProvider.simpleTitleSearch("terminator")
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .doOnSubscribe {
+                //                todo: show loader
+            }
+            .doFinally {
+                //                todo: hide loader
+            }.subscribe(
+                { t1 ->
+                    iView?.showToast("You did it!!")
+                },
+                { OnError ->
+                    iView?.showToast("Something went wrong x_x")
+                })
     }
-
 }

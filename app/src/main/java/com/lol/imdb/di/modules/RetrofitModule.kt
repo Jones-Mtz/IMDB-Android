@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.lol.imdb.BuildConfig
 import com.lol.imdb.api.RetrofitProvider
+import com.lol.imdb.api.interceptors.RetryInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Dispatcher
@@ -25,7 +26,8 @@ class RetrofitModule {
     @Provides
     @Singleton
     fun provideURL(): String {
-        return "http://www.lol.com.mx"
+//        https://futurestud.io/tutorials/retrofit-2-how-to-add-query-parameters-to-every-request
+        return BuildConfig.BASE_URL
     }
 
     @Provides
@@ -47,38 +49,26 @@ class RetrofitModule {
             )
     }
 
-    /*@Named("retry")
+    @Named("retry")
     @Provides
     @Singleton
-    fun provideRetryInterceptor(): Interceptor {
-        return Interceptor {
-            val request: Request = it.request()
-            var response: Response = it.proceed(request)
-            var tryCount = 0
-
-            while (!response.isSuccessful && tryCount < 5) {
-                tryCount++
-                response = it.proceed(request)
-            }
-
-            return@Interceptor response
-        }
-    }*/
+    fun provideRetryInterceptor(): RetryInterceptor {
+        return RetryInterceptor()
+    }
 
 
-    /*@Named("apikey")
+/*    @Named("apiKey")
     @Provides
     @Singleton
     fun provideApiKeyDefaultInterceptor(): Interceptor {
         return Interceptor {
             val originalRequest = it.request()
             val url = originalRequest.url().newBuilder()
-                .addQueryParameter("apikey", "5C0F2872").build()
+                .addQueryParameter("apiKey", "5C0F2872").build()
             val requestWithApiKey = originalRequest.newBuilder().url(url).build()
             it.proceed(requestWithApiKey)
         }
     }*/
-
 
     @Provides
     @Singleton
@@ -90,23 +80,23 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(@Named("log")loggingInterceptor: HttpLoggingInterceptor,
-//                            @Named("retry")retryInterceptor: HttpLoggingInterceptor,
-//                            @Named("apikey")apikeyInterceptor: HttpLoggingInterceptor,
-        dispatcher: Dispatcher
-    ): OkHttpClient {
+    fun provideOkHttpClient(
+        @Named("log") loggingInterceptor: HttpLoggingInterceptor,
+        @Named("retry") retryInterceptor: RetryInterceptor,
+//                            @Named("apiKey")apiKeyInterceptor: Interceptor,
+        dispatcher: Dispatcher): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-//            .addInterceptor(retryInterceptor)
-//            .addInterceptor(apikeyInterceptor)
+            .addInterceptor(retryInterceptor)
+//            .addInterceptor(apiKeyInterceptor)
             .dispatcher(dispatcher)
             .build()
     }
 
     @Provides
-//    @Named("baseRetrofit")
+    @Named("baseRetrofit")
     @Singleton
     fun provideBaseRetrofit(gson: Gson, okHttpClient: OkHttpClient, @Named("BaseURL") baseUrl: String): Retrofit {
         return RetrofitProvider(gson, okHttpClient, baseUrl).get()
