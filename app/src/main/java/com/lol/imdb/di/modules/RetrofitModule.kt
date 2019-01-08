@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.lol.imdb.BuildConfig
 import com.lol.imdb.api.RetrofitProvider
+import com.lol.imdb.api.interceptors.QueryApiKeyInterceptor
 import com.lol.imdb.api.interceptors.RetryInterceptor
 import dagger.Module
 import dagger.Provides
@@ -57,18 +58,12 @@ class RetrofitModule {
     }
 
 
-/*    @Named("apiKey")
+    @Named("apiKey")
     @Provides
     @Singleton
-    fun provideApiKeyDefaultInterceptor(): Interceptor {
-        return Interceptor {
-            val originalRequest = it.request()
-            val url = originalRequest.url().newBuilder()
-                .addQueryParameter("apiKey", "5C0F2872").build()
-            val requestWithApiKey = originalRequest.newBuilder().url(url).build()
-            it.proceed(requestWithApiKey)
-        }
-    }*/
+    fun provideApiKeyDefaultInterceptor(): QueryApiKeyInterceptor {
+        return QueryApiKeyInterceptor()
+    }
 
     @Provides
     @Singleton
@@ -83,14 +78,15 @@ class RetrofitModule {
     fun provideOkHttpClient(
         @Named("log") loggingInterceptor: HttpLoggingInterceptor,
         @Named("retry") retryInterceptor: RetryInterceptor,
-//                            @Named("apiKey")apiKeyInterceptor: Interceptor,
-        dispatcher: Dispatcher): OkHttpClient {
+        @Named("apiKey") apiKeyInterceptor: QueryApiKeyInterceptor,
+        dispatcher: Dispatcher
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(retryInterceptor)
-//            .addInterceptor(apiKeyInterceptor)
+            .addInterceptor(apiKeyInterceptor)
             .dispatcher(dispatcher)
             .build()
     }

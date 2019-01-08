@@ -9,7 +9,7 @@ import retrofit2.http.Query
  */
 interface MoviesApiService {
 
-    @GET
+    @GET(".")
     fun simpleTitleSearch(@Query("t") title: String): Single<String>
 
 }
