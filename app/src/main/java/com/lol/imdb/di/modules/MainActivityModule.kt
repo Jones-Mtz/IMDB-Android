@@ -19,8 +19,9 @@ class MainActivityModule {
     }
 
     @Provides
-    fun provideLOL(): String = "Finally you got it idiot!!"
+    fun provideLOL(): String = "Finally you got it!!"
 
+//    Cause there's only one retrofit module and it will be used on all app is separated
     /*@Provides
     fun provideMoviesRetrofit(retrofit: Retrofit): Retrofit {
         return retrofit

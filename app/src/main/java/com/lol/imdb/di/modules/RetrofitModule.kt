@@ -4,9 +4,9 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.lol.imdb.BuildConfig
-import com.lol.imdb.api.RetrofitProvider
-import com.lol.imdb.api.interceptors.QueryApiKeyInterceptor
+import com.lol.imdb.api.interceptors.DefaultQueryInterceptor
 import com.lol.imdb.api.interceptors.RetryInterceptor
+import com.lol.imdb.di.RetrofitProvider
 import dagger.Module
 import dagger.Provides
 import okhttp3.Dispatcher
@@ -27,7 +27,6 @@ class RetrofitModule {
     @Provides
     @Singleton
     fun provideURL(): String {
-//        https://futurestud.io/tutorials/retrofit-2-how-to-add-query-parameters-to-every-request
         return BuildConfig.BASE_URL
     }
 
@@ -35,7 +34,7 @@ class RetrofitModule {
     @Singleton
     fun provideGson(): Gson {
         return GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .create()
     }
 
@@ -61,8 +60,8 @@ class RetrofitModule {
     @Named("apiKey")
     @Provides
     @Singleton
-    fun provideApiKeyDefaultInterceptor(): QueryApiKeyInterceptor {
-        return QueryApiKeyInterceptor()
+    fun provideApiKeyDefaultInterceptor(): DefaultQueryInterceptor {
+        return DefaultQueryInterceptor()
     }
 
     @Provides
@@ -78,15 +77,15 @@ class RetrofitModule {
     fun provideOkHttpClient(
         @Named("log") loggingInterceptor: HttpLoggingInterceptor,
         @Named("retry") retryInterceptor: RetryInterceptor,
-        @Named("apiKey") apiKeyInterceptor: QueryApiKeyInterceptor,
+        @Named("apiKey") interceptorDefault: DefaultQueryInterceptor,
         dispatcher: Dispatcher
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(interceptorDefault)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(retryInterceptor)
-            .addInterceptor(apiKeyInterceptor)
             .dispatcher(dispatcher)
             .build()
     }

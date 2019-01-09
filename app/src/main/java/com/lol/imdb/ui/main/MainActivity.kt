@@ -35,10 +35,6 @@ class MainActivity : BaseActivity(), IMainView {
             onAttach(this@MainActivity)
         }
 
-        /*findViewById<Button>(R.id.btn_main).setOnClickListener {
-            presenter.onButtonClick(message)
-        }*/
-
         btn_main.setOnClickListener {
             presenter.onButtonClick(message)
         }
