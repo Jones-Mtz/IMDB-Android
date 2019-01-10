@@ -7,6 +7,7 @@ import com.lol.imdb.ui.base.IBasePresenter
  */
 interface IMainPresenter<IView: IMainView>: IBasePresenter<IView> {
 
-    fun onButtonClick(message: String)
+    fun setUpMainFragment()
+    fun getPopularMovies(message: String)
 
 }

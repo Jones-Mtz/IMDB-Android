@@ -1,3 +1,13 @@
 <resources>
     <string name="legend_main_button">I know you want it :)</string>
+
+    <!-- Button Navigation Actions -->
+    <string name="action_nav_popular">Most Popular</string>
+    <string name="action_nav_favourites">Favourites</string>
+    <string name="action_nav_search">Search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

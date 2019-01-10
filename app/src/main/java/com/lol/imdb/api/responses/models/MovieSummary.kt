@@ -5,14 +5,14 @@ import java.util.*
 /**
  * Created by Jones on 08/01/19.
  */
-class MovieSummary() {
+class MovieSummary {
 
     val id: Int? = null
     val title: String? = null
     val overview: String? = null
-    val release_date: Date? = null
-    val vote_average: Float? = null
-    val poster_path: String? = null
-    val genre_ids: IntArray? = intArrayOf()
+    val releaseDate: Date? = null
+    val voteAverage: Float? = null
+    val posterPath: String? = null
+    val genreIds: List<Int>? = listOf()
 
 }

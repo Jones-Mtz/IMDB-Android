@@ -8,32 +8,36 @@ import javax.inject.Inject
 /**
  * Created by Jones on 03/01/19.
  */
-//@PerActivity
+
 class MainPresenter<IView : IMainView>
-@Inject constructor(/*retrofit: Retrofit*/) : BasePresenter<IView>(/*retrofit*/), IMainPresenter<IView> {
+@Inject constructor() : BasePresenter<IView>(), IMainPresenter<IView> {
 
     @Inject
     lateinit var moviesProvider: MoviesProvider
 
-    override fun onButtonClick(message: String) {
-//        iView?.showToast(message)
-        val disposable =
-            moviesProvider.getPopularMovies(1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    //                todo: show loader
-                }
-                .doFinally {
-                    //                todo: hide loader
-                }
-                .subscribe(
-                    { response ->
-                        response.results
-                        iView?.showToast(message)
-                    },
-                    { OnError ->
-                        iView?.showToast("Something went wrong x_x")
-                    })
+    override fun setUpMainFragment() {
+        iView?.buildFragments()
+        iView?.goToMainFragment()
+    }
+
+    override fun getPopularMovies(message: String) {
+        disposable =
+                moviesProvider.getPopularMovies()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe {
+                        iView?.showLoader()
+                    }
+                    .doFinally {
+                        iView?.hideLoader()
+                    }
+                    .subscribe(
+                        { response ->
+                            response.results
+                            iView?.showToast(message)
+                        },
+                        { OnError ->
+                            iView?.showToast("Something went wrong x_x")
+                        })
     }
 
     /*Single.merge(
@@ -42,12 +46,6 @@ class MainPresenter<IView : IMainView>
         moviesProvider.simpleSearch(("coraline"))
     )
         .observeOn(AndroidSchedulers.mainThread())
-        .doOnSubscribe {
-            //                todo: show loader
-        }
-        .doFinally {
-            //                todo: hide loader
-        }
         .subscribe(
             { a ->
                 iView?.showToast("You did it!!")

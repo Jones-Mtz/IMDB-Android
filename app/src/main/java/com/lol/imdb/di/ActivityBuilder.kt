@@ -18,7 +18,7 @@ abstract class ActivityBuilder {
     abstract fun bindBaseActivity(): BaseActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [(MainActivityModule::class), (MoviesModule::class)])
+    @ContributesAndroidInjector(modules = [(MainActivityModule::class), (MoviesModule::class), (FragmentBuilder::class)])
     abstract fun bindMainActivity(): MainActivity
 
 

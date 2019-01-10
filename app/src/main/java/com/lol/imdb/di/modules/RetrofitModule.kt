@@ -52,17 +52,13 @@ class RetrofitModule {
     @Named("retry")
     @Provides
     @Singleton
-    fun provideRetryInterceptor(): RetryInterceptor {
-        return RetryInterceptor()
-    }
+    fun provideRetryInterceptor() = RetryInterceptor()
 
 
     @Named("apiKey")
     @Provides
     @Singleton
-    fun provideApiKeyDefaultInterceptor(): DefaultQueryInterceptor {
-        return DefaultQueryInterceptor()
-    }
+    fun provideApiKeyDefaultInterceptor() = DefaultQueryInterceptor()
 
     @Provides
     @Singleton

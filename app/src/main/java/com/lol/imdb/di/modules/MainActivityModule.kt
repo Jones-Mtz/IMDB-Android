@@ -10,7 +10,7 @@ import dagger.Provides
 /**
  * Created by Jones on 03/01/19.
  */
-@Module/*(includes = [(RetrofitModule::class)])*/
+@Module
 class MainActivityModule {
 
     @Provides

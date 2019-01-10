@@ -1,6 +1,6 @@
 package com.lol.imdb.api.providers
 
-import com.lol.imdb.api.responses.PopularMoviesResponse
+import com.lol.imdb.api.responses.MoviesResponse
 import com.lol.imdb.api.responses.models.MovieSummary
 import io.reactivex.Single
 
@@ -9,9 +9,8 @@ import io.reactivex.Single
  */
 interface MoviesProvider {
 
-    fun getPopularMovies(page: Int): Single<PopularMoviesResponse>
+    fun getPopularMovies(page: Int = 1): Single<MoviesResponse>
 
     fun simpleTitleSearch(title: String, page: Int = 1): Single<MovieSummary>
-
 
 }

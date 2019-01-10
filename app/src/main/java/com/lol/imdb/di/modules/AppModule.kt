@@ -6,6 +6,5 @@ import dagger.Module
 /**
  * Created by Jones on 04/01/19.
  */
-@Module(/*includes = [RetrofitModule::class]*/)
-class AppModule(var app: IMDB) {
-}
+@Module()
+class AppModule(var app: IMDB)
