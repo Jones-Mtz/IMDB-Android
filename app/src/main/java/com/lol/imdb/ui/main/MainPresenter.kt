@@ -21,7 +21,6 @@ class MainPresenter<IView : IMainView>
     }
 
     override fun getPopularMovies(message: String) {
-        disposable =
                 moviesProvider.getPopularMovies()
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe {

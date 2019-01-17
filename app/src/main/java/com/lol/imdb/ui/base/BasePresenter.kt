@@ -1,7 +1,7 @@
 package com.lol.imdb.ui.base
 
 import com.lol.imdb.di.PerActivity
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -9,7 +9,7 @@ import javax.inject.Inject
  */
 @PerActivity
 open class BasePresenter<IView : IBaseView> @Inject constructor() : IBasePresenter<IView> {
-    var disposable: Disposable? = null
+    var compositeDisposable: CompositeDisposable? = null
 
     var iView: IView? = null
 
@@ -19,7 +19,7 @@ open class BasePresenter<IView : IBaseView> @Inject constructor() : IBasePresent
 
     override fun onDetach() {
         iView = null
-        disposable?.dispose()
+        compositeDisposable?.clear()
     }
 
     override fun isViewAttached(): Boolean {

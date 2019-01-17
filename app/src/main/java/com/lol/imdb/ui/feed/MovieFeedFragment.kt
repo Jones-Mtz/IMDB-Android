@@ -2,12 +2,16 @@ package com.lol.imdb.ui.feed
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lol.imdb.R
+import com.lol.imdb.api.responses.models.MovieSummary
 import com.lol.imdb.ui.base.BaseFragment
+import com.lol.imdb.ui.feed.movies.MovieFeedAdapter
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_movie_feed.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -22,6 +26,9 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
 
     @Inject
     lateinit var presenter: IMovieFeedPresenter<IMovieFeedView>
+
+    @Inject
+    lateinit var moviesAdapter: MovieFeedAdapter
 
     private var operationMode: Int? = null
     private var listener: IMovieItemClicked? = null
@@ -43,7 +50,18 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.onAttach(this)
+        presenter.getPopularMovies()
     }
+
+    override fun setUpRecycler() {
+        rvMovieFeed.adapter = moviesAdapter
+        rvMovieFeed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+    }
+
+    override fun populateList(movies: List<MovieSummary>) {
+        moviesAdapter.setMovies(movies)
+    }
+
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
