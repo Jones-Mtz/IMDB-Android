@@ -39,6 +39,10 @@ class MainPresenter<IView : IMainView>
                         })
     }
 
+    override fun startFullReviewActivity() {
+
+    }
+
     /*Single.merge(
         moviesProvider.simpleSearch(("terminator")),
         moviesProvider.simpleSearch(("lkjass23")),

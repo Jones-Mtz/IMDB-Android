@@ -3,6 +3,7 @@ package com.lol.imdb.ui.feed
 import com.lol.imdb.api.providers.MoviesProvider
 import com.lol.imdb.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 /**
@@ -35,6 +36,6 @@ class MovieFeedPresenter<IView : IMovieFeedView>
                 },
                 { OnError ->
                     iView?.showToast("Something went wrong x_x")
-                })
+                }).addTo(compositeDisposable)
     }
 }

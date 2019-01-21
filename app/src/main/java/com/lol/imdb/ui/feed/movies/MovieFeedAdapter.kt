@@ -9,7 +9,8 @@ import com.lol.imdb.api.responses.models.MovieSummary
 /**
  * Created by Jones on 10/01/19.
  */
-class MovieFeedAdapter(private val presenter: MovieRowPresenter) : RecyclerView.Adapter<MovieViewHolder>() {
+class MovieFeedAdapter(private val presenter: MovieRowPresenter<IMovieRowView>) :
+    RecyclerView.Adapter<MovieViewHolder>() {
 
     fun setMovies(movies: List<MovieSummary>) {
         presenter.movies = movies

@@ -9,7 +9,7 @@ import javax.inject.Inject
  */
 @PerActivity
 open class BasePresenter<IView : IBaseView> @Inject constructor() : IBasePresenter<IView> {
-    var compositeDisposable: CompositeDisposable? = null
+    var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     var iView: IView? = null
 
@@ -19,7 +19,7 @@ open class BasePresenter<IView : IBaseView> @Inject constructor() : IBasePresent
 
     override fun onDetach() {
         iView = null
-        compositeDisposable?.clear()
+        compositeDisposable.clear()
     }
 
     override fun isViewAttached(): Boolean {

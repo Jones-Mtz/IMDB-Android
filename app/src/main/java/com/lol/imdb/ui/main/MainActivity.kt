@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * Created by Jones on 03/01/19.
  */
-class MainActivity : BaseActivity(), HasSupportFragmentInjector, IMainView {
+class MainActivity : BaseActivity(), HasSupportFragmentInjector, IMainView, MovieFeedFragment.IMovieItemClicked {
 
     private var currentFragment: MovieFeedFragment? = null
 
@@ -73,6 +73,14 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector, IMainView {
             }
             false
         }
+    }
+
+    override fun itemClicked(id: Int) {
+        presenter.startFullReviewActivity()
+    }
+
+    override fun starFullReviewActivity() {
+        showToast("lol")
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

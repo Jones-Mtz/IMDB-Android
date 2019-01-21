@@ -9,5 +9,6 @@ interface IMainPresenter<IView: IMainView>: IBasePresenter<IView> {
 
     fun setUpMainFragment()
     fun getPopularMovies(message: String)
+    fun startFullReviewActivity()
 
 }

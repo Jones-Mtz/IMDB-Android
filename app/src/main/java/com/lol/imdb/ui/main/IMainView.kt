@@ -9,4 +9,5 @@ interface IMainView : IBaseView {
     fun buildFragments()
     fun goToMainFragment()
     fun setUpButtonNav()
+    fun starFullReviewActivity()
 }

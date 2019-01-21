@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.item_movie_summary.view.*
 class MovieViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView), IMovieRowView {
     override fun setImage(url: String) {
 //        todo: use picasso or something like that
+
     }
 
     override fun setTitle(title: String) {

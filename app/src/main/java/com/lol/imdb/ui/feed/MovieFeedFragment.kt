@@ -17,7 +17,6 @@ import javax.inject.Named
 
 private const val OPERATION_MODE = "mode"
 
-
 class MovieFeedFragment : BaseFragment(), IMovieFeedView {
 
     @Named("lol")
