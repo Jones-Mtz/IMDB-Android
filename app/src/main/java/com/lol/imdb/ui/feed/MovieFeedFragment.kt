@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_movie_feed.*
 import javax.inject.Inject
 import javax.inject.Named
 
-private const val OPERATION_MODE = "mode"
+private const val OPERATION_MODE = "operation_mode"
 
 class MovieFeedFragment : BaseFragment(), IMovieFeedView {
 
@@ -29,13 +29,13 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
     @Inject
     lateinit var moviesAdapter: MovieFeedAdapter
 
-    private var operationMode: Int? = null
+    private var operationMode: OperationMode? = null
     private var listener: IMovieItemClicked? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            operationMode = it.getInt(OPERATION_MODE)
+            operationMode = it.getSerializable(OPERATION_MODE) as OperationMode
         }
     }
 
@@ -72,17 +72,25 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
         listener = null
     }
 
+    fun changeOperationMode(mode: OperationMode) {
+        this.operationMode = mode
+    }
+
     interface IMovieItemClicked {
         fun itemClicked(id: Int)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(operationMode: Int) =
+        fun newInstance(operationMode: OperationMode) =
             MovieFeedFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(OPERATION_MODE, operationMode)
+                    putSerializable(OPERATION_MODE, operationMode)
                 }
             }
+    }
+
+    enum class OperationMode {
+        POPULAR, FAVOURITES, SEARCH
     }
 }

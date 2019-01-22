@@ -51,7 +51,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector, IMainView, Movi
     }
 
     override fun buildFragments() {
-        currentFragment = MovieFeedFragment.newInstance(0)
+        currentFragment = MovieFeedFragment.newInstance(MovieFeedFragment.OperationMode.POPULAR)
     }
 
     override fun goToMainFragment() {
@@ -64,12 +64,14 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector, IMainView, Movi
         bnMainBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_popular -> {
+                    currentFragment?.changeOperationMode(MovieFeedFragment.OperationMode.POPULAR)
                 }
                 R.id.action_favourites -> {
+                    currentFragment?.changeOperationMode(MovieFeedFragment.OperationMode.FAVOURITES)
                 }
                 R.id.action_search -> {
+                    currentFragment?.changeOperationMode(MovieFeedFragment.OperationMode.SEARCH)
                 }
-
             }
             false
         }

@@ -9,7 +9,7 @@ import javax.inject.Inject
  */
 @PerActivity
 open class BasePresenter<IView : IBaseView> @Inject constructor() : IBasePresenter<IView> {
-    var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     var iView: IView? = null
 
