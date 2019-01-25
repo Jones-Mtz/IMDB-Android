@@ -42,6 +42,13 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector, IMainView, Movi
         init()
     }
 
+    override fun onAttachFragment(fragment: Fragment?) {
+        when (fragment) {
+            is MovieFeedFragment ->
+                fragment.setActivityCommunication(this)
+        }
+    }
+
     private fun init() {
         with(presenter) {
             onAttach(this@MainActivity)

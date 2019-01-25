@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.lol.imdb.R
 import com.lol.imdb.api.responses.models.MovieSummary
+import com.lol.imdb.ui.base.BaseActivity
 import com.lol.imdb.ui.base.BaseFragment
 import com.lol.imdb.ui.feed.movies.MovieFeedAdapter
 import dagger.android.support.AndroidSupportInjection
@@ -30,7 +31,7 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
     lateinit var moviesAdapter: MovieFeedAdapter
 
     private var operationMode: OperationMode? = null
-    private var listener: IMovieItemClicked? = null
+    private var iMovieFeed: IMovieItemClicked? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,10 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
         presenter.getPopularMovies()
     }
 
+    override fun setActivityCommunication(activity: BaseActivity) {
+        iMovieFeed = activity as IMovieItemClicked
+    }
+
     override fun setUpRecycler() {
         rvMovieFeed.adapter = moviesAdapter
         rvMovieFeed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -69,7 +74,7 @@ class MovieFeedFragment : BaseFragment(), IMovieFeedView {
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        iMovieFeed = null
     }
 
     fun changeOperationMode(mode: OperationMode) {

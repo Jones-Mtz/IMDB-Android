@@ -40,7 +40,7 @@ class MainPresenter<IView : IMainView>
     }
 
     override fun startFullReviewActivity() {
-
+        iView?.showToast("lol")
     }
 
     /*Single.merge(

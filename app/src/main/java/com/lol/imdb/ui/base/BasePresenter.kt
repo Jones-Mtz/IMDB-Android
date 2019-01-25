@@ -1,13 +1,11 @@
 package com.lol.imdb.ui.base
 
-import com.lol.imdb.di.PerActivity
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
  * Created by Jones on 03/01/19.
  */
-@PerActivity
 open class BasePresenter<IView : IBaseView> @Inject constructor() : IBasePresenter<IView> {
     val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 

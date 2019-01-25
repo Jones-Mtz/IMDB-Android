@@ -19,5 +19,6 @@ interface IBaseView {
     }
 
     interface IBaseFragment {
+        fun setActivityCommunication(activity: BaseActivity)
     }
 }
